@@ -1,0 +1,68 @@
+_qpu()
+{
+  local options='-h -p -r -1 -2 -d -t -a -b -g -n -v'
+  local commands='execute firmware register'
+  local execute='i u r w x'
+  local firmware='enable disable board clocks memory power temp version voltage'
+  local register='ident0 ident1 ident2 scratch l2cactl slcactl intctl intena
+                  intdis ct0cs ct1cs ct0ea ct1ea ct0ca ct1ca ct00ra0 ct01ra0
+                  ct0lc ct1lc ct0pc ct1pc pcs bfc rfc bpca bpcs bpoa bpos bxcf
+                  sqrsv0 sqrsv1 sqcntl srqpc srqua srqul srqcs vpacntl vpmbase
+                  pctrc pctre pctr pctrs dbqite dbqitc dbge fdbgo fdbgb fdbgr
+                  fdbgs errstat'
+
+  local cur prev words cword split
+  _init_completion -s || return
+
+  local i offset=0
+  for ((i = 1; i < cword; i++)); do
+    case ${words[i]} in
+      execute|firmware|register)
+        offset=$i
+        break
+        ;;
+    esac
+  done
+
+  if ((offset == 0)); then
+    case $prev in
+      -g)
+        COMPREPLY=($(compgen -W "{0..9}" -P "$cur"))
+        compopt -o nospace
+        return
+        ;;
+      *)
+        COMPREPLY=($(compgen -W "$options $commands" -- "$cur"))
+        compopt -o nosort
+        return
+        ;;
+    esac
+  else
+    case ${words[offset]} in
+      firmware)
+        COMPREPLY=($(compgen -W "$firmware" -- "$cur"))
+        return
+        ;;
+      register)
+        COMPREPLY=($(compgen -W "$register" -- "$cur"))
+        return
+        ;;
+      execute)
+        case $prev in
+          i|u|r)
+            COMPREPLY=($(compgen -f -- "$cur"))
+            return
+            ;;
+          w|x)
+            COMPREPLY=($(compgen -W "{0..9}" -P "$cur"))
+            return
+            ;;
+          *)
+            COMPREPLY=($(compgen -W "$execute" -- "$cur"))
+            return
+            ;;
+          esac
+    esac
+  fi
+}
+complete -F _qpu qpu

@@ -1,0 +1,6 @@
+.#*
+*.o
+*.deb
+armhf*
+amd64*
+.vscode
