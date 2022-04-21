@@ -12,11 +12,9 @@ ifeq ($(shell uname -m),armv6l)
 	INCDIRS  := -I /opt/vc/include
 	LIBDIRS  := -L /opt/vc/lib
 else
-	CROSSBIN := ../toolchain/arm-rpi-4.9.3-linux-gnueabihf/bin
-	CROSSLIB := ../toolchain/libraspberrypi
-	CC       :=    $(CROSSBIN)/arm-linux-gnueabihf-gcc
-	INCDIRS  := -I $(CROSSLIB)/opt/vc/include
-	LIBDIRS  := -L $(CROSSLIB)/opt/vc/lib
+	CC       := toolchain/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc
+	INCDIRS  := -I toolchain/libraspberrypi/opt/vc/include
+	LIBDIRS  := -L toolchain/libraspberrypi/opt/vc/lib
 endif
 
 ifeq ($(BUILD),release)
