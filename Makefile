@@ -88,17 +88,17 @@ control: | $(CTLDIR)
 	@echo "Description: $(DESCRIPTION)"   >> $(CONTROL)
 	@echo " $(EXTDESC)"                   >> $(CONTROL)
 
-$(PKGDIR):
-	@install -d -m 0755 $(PKGDIR)
+$(BINDIR): | $(PKGDIR)
+	@install -d -m 0755 $(BINDIR)
 
 $(CTLDIR): | $(PKGDIR)
 	@install -d -m 0755 $(CTLDIR)
 
-$(BINDIR): | $(PKGDIR)
-	@install -d -m 0755 $(BINDIR)
-
 $(CMPLDIR): | $(PKGDIR)
 	@install -d -m 0755 $(CMPLDIR)
+
+$(PKGDIR):
+	@install -d -m 0755 $(PKGDIR)
 
 #
 # Other
