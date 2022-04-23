@@ -32,6 +32,7 @@ SRCDIR    := src
 SOURCES   := $(wildcard $(SRCDIR)/*.c)
 BUILDROOT := $(TARGET)-$(BUILD)
 BUILDDIR  := $(BUILDROOT)/build
+BUILDSRC  := $(BUILDDIR)/$(SRCDIR)
 OBJECTS   := $(SOURCES:%.c=$(BUILDDIR)/%.o)
 DEPS      := $(SOURCES:%.c=$(BUILDDIR)/%.d)
 BINARY    := $(BUILDDIR)/$(NAME)
@@ -39,16 +40,16 @@ BINARY    := $(BUILDDIR)/$(NAME)
 .PHONY: bin
 bin: $(BINARY)
 
-$(BINARY): $(OBJECTS) | $(BUILDDIR)/$(SRCDIR)
+$(BINARY): $(OBJECTS) | $(BUILDSRC)
 	$(CC) $(CFLAGS) $(LIBDIRS) -o $@ $(OBJECTS) $(LIBS)
 
-$(BUILDDIR)/%.o: %.c | $(BUILDDIR)/$(SRCDIR)
+$(BUILDDIR)/%.o: %.c | $(BUILDSRC)
 	$(CC) $(CFLAGS) $(INCDIRS) -MMD -c -o $@ $< $(LIBS)
 
 -include $(DEPS)
 
-$(BUILDDIR)/$(SRCDIR): | $(BUILDDIR)
-	@install -d -m 0755 $(BUILDDIR)/$(SRCDIR)
+$(BUILDSRC): | $(BUILDDIR)
+	@install -d -m 0755 $(BUILDSRC)
 
 $(BUILDDIR):
 	@install -d -m 0755 $(BUILDDIR)
