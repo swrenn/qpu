@@ -62,7 +62,7 @@ DESCRIPTION  := Raspberry Pi Video Core IV Command Line Utility
 EXTDESC      := Explore the Raspberry Pi GPU from the command line.
 MAINTAINER   := Samuel Wrenn <swrenn@gmail.com>
 DEPENDS      := libc6 (>= 2.24), libraspberrypi0 (>= 1.20190517-1)
-VERSION      := $(shell git describe --tag --long)
+VERSION      := $(shell git describe)
 ARCHITECTURE := $(TARGET)
 
 PKGDIR       := $(BUILDROOT)/package
