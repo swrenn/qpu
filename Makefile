@@ -17,6 +17,14 @@ else
 	LIBDIRS  := -L toolchain/libraspberrypi/opt/vc/lib
 endif
 
+ifeq ($(shell which $(CC)),)
+$(error "Not found: $(CC)")
+endif
+
+ifeq ($(shell which git),)
+$(error "Not found: git")
+endif
+
 ifeq ($(BUILD),release)
 	CFLAGS += -O2 -DNDEBUG -s
 else ifeq ($(BUILD),debug)
