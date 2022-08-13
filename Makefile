@@ -72,7 +72,7 @@ CMPLDIR      := $(PKGDIR)/usr/share/bash-completion/completions
 CONTROL      := $(CTLDIR)/control
 
 .PHONY: deb
-deb: bin control | $(PKGDIR) $(CTLDIR) $(BINDIR) $(CMPLDIR) 
+deb: bin control | $(BINDIR) $(CMPLDIR) $(PKGDIR) 
 	@install -m 0755 $(BINARY) $(BINDIR)
 	@install -m 0644 $(SRCDIR)/compl $(CMPLDIR)/qpu
 	fakeroot dpkg-deb -Zgzip --build $(PKGDIR) $(BUILDROOT)
